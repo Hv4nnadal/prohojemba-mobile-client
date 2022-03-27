@@ -52,8 +52,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: [
               _welcomeNote(),
-              _input(),
-              _buttons()
+              _input()
             ],
           ),
         )
@@ -80,14 +79,45 @@ class _RegisterState extends State<Register> {
       (BuildContext context, ControlsDetails details) {
          return Row(
            children: <Widget>[
-             TextButton(
-               onPressed: details.onStepContinue,
-               child: Text('Продолжить'),
-             ),
-             TextButton(
-               onPressed: details.onStepCancel,
-               child: Text('Назад'),
-             ),
+             _currentStep == 0 ?
+             Container(
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: details.onStepContinue,
+                      child: Text('Продолжить'),
+                    ),
+                    TextButton(
+                      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
+                      child: Text('Отмена'),
+                    ),
+                  ]
+                )
+             ) : _currentStep == 1 ?
+              Container(
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: details.onStepContinue,
+                      child: Text('Отправить данные'),
+                    ),
+                    TextButton(
+                      onPressed: details.onStepCancel,
+                      child: Text('Назад'),
+                    ),
+                  ]
+                )
+              ) :
+              Container(
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
+                      child: Text('Завершить регистрацию'),
+                    ),
+                  ]
+                )
+              ),
            ],
          );
       },
@@ -180,30 +210,6 @@ class _RegisterState extends State<Register> {
         }
       },
     ),
-  );
-
-  //Блок с кнопками
-  Widget _buttons() => Column (
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: <Widget> [
-      //Кнопка "Зарегистироваться"
-      Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CupertinoButton(
-          onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
-          child: Text(
-              "Зарегистироваться",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              )
-            ),
-            color: Color.fromRGBO(100, 100, 100, 1),
-          ),
-        ),
-      ),
-    ],
   );
   
   //Поле с дополнительной информацией
