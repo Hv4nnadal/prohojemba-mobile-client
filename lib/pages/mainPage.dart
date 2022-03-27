@@ -9,6 +9,8 @@ import 'package:prohojemba/pages/newstat.dart';
 
 import 'package:http/http.dart' as http;
 
+int backButtonClickCounter = 0;
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -19,12 +21,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int backButtonClickCounter = 0;
-  
-  Future<String> _getUserInfo() async {
-    var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-    return User.fromJson(jsonDecode(response.body)).userName;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return false;
       },
       child: Scaffold(
+        drawer: NavDrawer(),
         body: Center(
           child: Container(
               decoration: BoxDecoration(
@@ -78,11 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget> [
               const SizedBox(height: 10),
-              Text('Вы авторизовались как'),
-              const SizedBox(height: 10),
-              _avatar(),
-              const SizedBox(height: 10),
-              _userName(),
               const SizedBox(height: 10),
               _buttons()
             ],
@@ -93,73 +85,14 @@ class _MyHomePageState extends State<MyHomePage> {
     ],
   );
 
-  //Блок с информацией о пользователе
-  Widget _userInfo() => Container(
-    child: Column(
-      children: <Widget> [
-        _userName(),
-        _avatar()
-      ],
-    ),
-  );
 
-  //Отображение имени пользователя
-  Widget _userName() => FutureBuilder<String>(
-    future: _getUserInfo(),
-    builder:(context, snapshot) {
-      if (snapshot.hasData) {
-        return Text(
-          snapshot.data,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20
-          ),
-        );
-      }
-      return CircularProgressIndicator();
-    }
-    
-  );
-
-  //Отображение аватара пользователей
-  Widget _avatar() => Container(
-    width: 100.0,
-    height: 100.0,
-    decoration: BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage("pictures/icon.png"),
-        fit: BoxFit.cover
-      ),
-    ),
-  );
 
   //Блок с кнопками
   Widget _buttons() => Container(
     child: Column(
       children: <Widget> [
-        _profile(),
-        _viewStats(),
-        _newStat(),
-        _logout()
+        Text("Тута будет главная страница")
       ],
-    ),
-  );
-
-  //Кнопка перехода на страницу профиля
-  Widget _profile() => Container(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CupertinoButton(
-      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Profile())); backButtonClickCounter = 0; },
-      child: Text(
-          "Профиль",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          )
-        ),
-        color: Color.fromRGBO(100, 100, 100, 1),
-      ),
     ),
   );
 
@@ -180,45 +113,116 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ),
   );
-
-  //Кнопка перехода на страницу со статистикой
-  Widget _newStat() => Container(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CupertinoButton(
-      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => NewStat())); backButtonClickCounter = 0; },
-      child: Text(
-          "Сделать запись",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          )
-        ),
-        color: Color.fromRGBO(100, 100, 100, 1),
-      ),
-    ),
-  );
-
-  //Кнопка выхода из аккаунта
-  Widget _logout() => Container(
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CupertinoButton(
-      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); backButtonClickCounter = 0; },
-      child: Text(
-          "Сменить аккаунт",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          )
-        ),
-        color: Color.fromRGBO(100, 100, 100, 1),
-      ),
-    ),
-  );
-
   //Поле с дополнительной информацией
   Widget _about() => Text('Presented by StarPony Inc. 2022');
+}
+
+class NavDrawer extends StatelessWidget {
+  Future<String> _getUserInfo() async {
+    var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+    return User.fromJson(jsonDecode(response.body)).userName;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: _userInfo(),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage("pictures/drawerBack.png")
+              )
+            ),
+          ),
+          
+          ListTile(
+            leading: Icon(Icons.person_outline),
+            title: Text('Профиль'),
+            onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Profile())); backButtonClickCounter = 0; },
+          ),
+          ListTile(
+            leading: Icon(Icons.library_books),
+            title: Text('Статистика'),
+            onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => ViewStats())); backButtonClickCounter = 0; },
+          ),
+          ListTile(
+            leading: Icon(Icons.library_add),
+            title: Text('Сделать запись'),
+            onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => NewStat())); backButtonClickCounter = 0; },
+          ),
+          Divider(
+            thickness: 2,
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Сменить аккаунт'),
+            onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); backButtonClickCounter = 0; },
+          ),
+        ]
+      )
+    );
+  }
+
+    //Блок с информацией о пользователе
+  Widget _userInfo() => Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget> [
+        _avatar(),
+        const SizedBox(height: 20),
+        Text(
+          'Вы авторизовались как',
+          style: TextStyle(
+            fontSize: 10,
+            color: Colors.white
+          ),
+        ),
+        const SizedBox(height: 5),
+        _userName(),
+      ],
+    ),
+  );
+
+  //Отображение имени пользователя
+  Widget _userName() => FutureBuilder<String>(
+    future: _getUserInfo(),
+    builder:(context, snapshot) {
+      if (snapshot.hasData) {
+        return Text(
+          snapshot.data,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white
+          ),
+        );
+      }
+      return SizedBox(
+        child: CircularProgressIndicator(),
+        height: 20,
+        width: 20,
+      );
+    }
+    
+  );
+
+  //Отображение аватара пользователей
+  Widget _avatar() => Container(
+    width: 70.0,
+    height: 70.0,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage("pictures/icon.png"),
+        fit: BoxFit.cover
+      ),
+    ),
+  );
 }
 
 class User {

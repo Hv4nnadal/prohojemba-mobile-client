@@ -141,64 +141,13 @@ class _RegisterState extends State<Register> {
           isActive: _currentStep == 0,
           state: _stepState(0),
           title: Text("Введи данные"),
-          content: Column(
-            children: <Widget> [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CupertinoTextField(
-                  textInputAction: TextInputAction.next,
-                  restorationId: 'email_address_text_field',
-                  placeholder: 'Email',
-                  keyboardType: TextInputType.emailAddress,
-                  clearButtonMode: OverlayVisibilityMode.editing,
-                  autocorrect: false,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CupertinoTextField(
-                  textInputAction: TextInputAction.next,
-                  restorationId: 'email_address_text_field',
-                  placeholder: 'Пароль',
-                  keyboardType: TextInputType.visiblePassword,
-                  clearButtonMode: OverlayVisibilityMode.editing,
-                  autocorrect: false,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CupertinoTextField(
-                  textInputAction: TextInputAction.next,
-                  restorationId: 'email_address_text_field',
-                  placeholder: 'Пароль (повтор)',
-                  keyboardType: TextInputType.visiblePassword,
-                  clearButtonMode: OverlayVisibilityMode.editing,
-                  autocorrect: false,
-                ),
-              ),
-            ],
-          )
+          content: _registrationFields()
         ),
         Step(
           isActive: _currentStep == 1,
           state: _stepState(1),
           title: Text("Активируй аккаунт"),
-          content: Column(
-            children: <Widget> [
-              Text("На указанную почту было выслано письмо с кодом подтверждения. Введите его в поле ниже:"),
-              Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CupertinoTextField(
-                textInputAction: TextInputAction.next,
-                restorationId: 'email_address_text_field',
-                placeholder: 'Сюдой введи код',
-                keyboardType: TextInputType.emailAddress,
-                clearButtonMode: OverlayVisibilityMode.editing,
-                autocorrect: false,
-              ),
-            ),
-            ]
-          ),
+          content: _emailVerification()
         ),
         Step(
           isActive: _currentStep == 2,
@@ -240,6 +189,61 @@ class _RegisterState extends State<Register> {
     }
   }
   
+  Widget _registrationFields() => Column(
+    children: <Widget> [
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CupertinoTextField(
+          textInputAction: TextInputAction.next,
+          restorationId: 'email_address_text_field',
+          placeholder: 'Email',
+          keyboardType: TextInputType.emailAddress,
+          clearButtonMode: OverlayVisibilityMode.editing,
+          autocorrect: false,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CupertinoTextField(
+          textInputAction: TextInputAction.next,
+          restorationId: 'email_address_text_field',
+          placeholder: 'Пароль',
+          keyboardType: TextInputType.visiblePassword,
+          clearButtonMode: OverlayVisibilityMode.editing,
+          autocorrect: false,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: CupertinoTextField(
+          textInputAction: TextInputAction.next,
+          restorationId: 'email_address_text_field',
+          placeholder: 'Пароль (повтор)',
+          keyboardType: TextInputType.visiblePassword,
+          clearButtonMode: OverlayVisibilityMode.editing,
+          autocorrect: false,
+        ),
+      ),
+    ],
+  );
+
+  Widget _emailVerification() => Column(
+    children: <Widget> [
+      Text("На указанную почту было выслано письмо с кодом подтверждения. Введите его в поле ниже:"),
+      Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: CupertinoTextField(
+        textInputAction: TextInputAction.next,
+        restorationId: 'email_address_text_field',
+        placeholder: 'Сюдой введи код',
+        keyboardType: TextInputType.emailAddress,
+        clearButtonMode: OverlayVisibilityMode.editing,
+        autocorrect: false,
+      ),
+    ),
+    ]
+  );
+
   //Поле с дополнительной информацией
   Widget _about() => Text('Presented by StarPony Inc. 2022');
 }
