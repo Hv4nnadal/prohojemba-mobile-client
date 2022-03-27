@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Prohodjemba Pre-pre-alpha',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Login(),

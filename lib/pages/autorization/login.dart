@@ -130,10 +130,11 @@ class _LoginState extends State<Login> {
               "Войти",
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
+                color: Colors.black
               )
             ),
-            color: Color.fromRGBO(100, 100, 100, 1),
+            color: Color.fromRGBO(234, 119, 23, 1),
           ),
         ),
       ),
@@ -150,7 +151,7 @@ class _LoginState extends State<Login> {
                 fontWeight: FontWeight.bold
               )
             ),
-            color: Color.fromRGBO(100, 100, 100, 1),
+            color: Color.fromRGBO(0, 0, 0, 1),
           ),
         ),
       ),

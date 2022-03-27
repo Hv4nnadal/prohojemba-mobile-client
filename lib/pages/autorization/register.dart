@@ -74,36 +74,45 @@ class _RegisterState extends State<Register> {
 
   //Блок с полями для ввода информации
   Widget _input() => Container(
-    child: Stepper(
-      controlsBuilder:
-      (BuildContext context, ControlsDetails details) {
-         return Row(
-           children: <Widget>[
-             _currentStep == 0 ?
-             Container(
+    child:  Stepper(
+      controlsBuilder: (BuildContext context, ControlsDetails details) {
+        return Row(
+          children: <Widget>[
+            _currentStep == 0 ?
+            Container(
                 child: Row(
-                  children: [
-                    TextButton(
-                      onPressed: details.onStepContinue,
-                      child: Text('Продолжить'),
+                  children: [ TextButton(
+                    onPressed: details.onStepContinue,
+                    child: Text(
+                      'Отправить данные',
+                      style: TextStyle(
+                        color: Color.fromRGBO(226, 85, 5, 1),
+                      ),
                     ),
-                    TextButton(
-                      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
-                      child: Text('Отмена'),
+                  ),
+                  TextButton(
+                    onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
+                    child: Text(
+                      'Отмена',
+                      style: TextStyle(
+                        color: Color.fromRGBO(226, 85, 5, 1),
+                      ),
                     ),
+                  ),
                   ]
                 )
-             ) : _currentStep == 1 ?
+            ) : _currentStep == 1 ?
               Container(
                 child: Row(
                   children: [
                     TextButton(
                       onPressed: details.onStepContinue,
-                      child: Text('Отправить данные'),
-                    ),
-                    TextButton(
-                      onPressed: details.onStepCancel,
-                      child: Text('Назад'),
+                      child: Text(
+                        'Проверить код',
+                        style: TextStyle(
+                          color: Color.fromRGBO(226, 85, 5, 1),
+                        ),
+                        ),
                     ),
                   ]
                 )
@@ -113,32 +122,25 @@ class _RegisterState extends State<Register> {
                   children: [
                     TextButton(
                       onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
-                      child: Text('Завершить регистрацию'),
+                      child: Text(
+                        'Перейти к авторизации',
+                        style: TextStyle(
+                          color: Color.fromRGBO(226, 85, 5, 1),
+                        ),
+                        ),
                     ),
                   ]
                 )
               ),
-           ],
-         );
+          ],
+        );
       },
       type: StepperType.vertical,
       steps: <Step> [
         Step(
-          title: Text("Введите свой e-mail"),
-          content: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: CupertinoTextField(
-              textInputAction: TextInputAction.next,
-              restorationId: 'email_address_text_field',
-              placeholder: 'Сюдой введи почту',
-              keyboardType: TextInputType.emailAddress,
-              clearButtonMode: OverlayVisibilityMode.editing,
-              autocorrect: false,
-            ),
-          ),
-        ),
-        Step(
-          title: Text("Придумайте пароль"),
+          isActive: _currentStep == 0,
+          state: _stepState(0),
+          title: Text("Введи данные"),
           content: Column(
             children: <Widget> [
               Padding(
@@ -146,7 +148,7 @@ class _RegisterState extends State<Register> {
                 child: CupertinoTextField(
                   textInputAction: TextInputAction.next,
                   restorationId: 'email_address_text_field',
-                  placeholder: 'Сюдой введи пароль',
+                  placeholder: 'Email',
                   keyboardType: TextInputType.emailAddress,
                   clearButtonMode: OverlayVisibilityMode.editing,
                   autocorrect: false,
@@ -157,43 +159,61 @@ class _RegisterState extends State<Register> {
                 child: CupertinoTextField(
                   textInputAction: TextInputAction.next,
                   restorationId: 'email_address_text_field',
-                  placeholder: 'Сюдой введи пароль ышчо раз',
-                  keyboardType: TextInputType.emailAddress,
+                  placeholder: 'Пароль',
+                  keyboardType: TextInputType.visiblePassword,
+                  clearButtonMode: OverlayVisibilityMode.editing,
+                  autocorrect: false,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CupertinoTextField(
+                  textInputAction: TextInputAction.next,
+                  restorationId: 'email_address_text_field',
+                  placeholder: 'Пароль (повтор)',
+                  keyboardType: TextInputType.visiblePassword,
                   clearButtonMode: OverlayVisibilityMode.editing,
                   autocorrect: false,
                 ),
               ),
             ],
-          ) 
+          )
         ),
         Step(
-          title: Text("Активируйте аккаунт"),
+          isActive: _currentStep == 1,
+          state: _stepState(1),
+          title: Text("Активируй аккаунт"),
+          content: Column(
+            children: <Widget> [
+              Text("На указанную почту было выслано письмо с кодом подтверждения. Введите его в поле ниже:"),
+              Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CupertinoTextField(
+                textInputAction: TextInputAction.next,
+                restorationId: 'email_address_text_field',
+                placeholder: 'Сюдой введи код',
+                keyboardType: TextInputType.emailAddress,
+                clearButtonMode: OverlayVisibilityMode.editing,
+                autocorrect: false,
+              ),
+            ),
+            ]
+          ),
+        ),
+        Step(
+          isActive: _currentStep == 2,
+          state: _stepState(2),
+          title: Text("Приступай к использованию"),
           content: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: <Widget> [
-                Text("На указанную почту было выслано письмо с кодом подтверждения. Введите его в поле ниже:"),
-                Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CupertinoTextField(
-                  textInputAction: TextInputAction.next,
-                  restorationId: 'email_address_text_field',
-                  placeholder: 'Сюдой введи код',
-                  keyboardType: TextInputType.emailAddress,
-                  clearButtonMode: OverlayVisibilityMode.editing,
-                  autocorrect: false,
-                ),
-              ),
+                Text("Аккаунт был успешно активирован! Теперь можно вернуться на страницу авторизации и войти."),
               ]
             ),
           ),
         ),
       ],
-      onStepTapped: (int newIndex) {
-        setState(() {
-          _currentStep = newIndex;
-        });
-      },
       currentStep: _currentStep,
       onStepContinue: () {
         if (_currentStep != 2) {
@@ -211,6 +231,14 @@ class _RegisterState extends State<Register> {
       },
     ),
   );
+
+  StepState _stepState(int step) {
+    if (_currentStep > step) {
+      return StepState.complete;
+    } else {
+      return StepState.indexed;
+    }
+  }
   
   //Поле с дополнительной информацией
   Widget _about() => Text('Presented by StarPony Inc. 2022');
