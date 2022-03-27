@@ -47,15 +47,15 @@ class _LoginState extends State<Login> {
         alignment: Alignment.center,
         child: Container(
           decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-                color: Color.fromRGBO(250, 250, 250, 1),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color.fromRGBO(60, 60, 60, 0.3).withOpacity(0.5),
+                //     spreadRadius: 5,
+                //     blurRadius: 7,
+                //     offset: Offset(0, 3),
+                //   ),
+                // ],
+                color: Color.fromRGBO(255, 230, 141, 0.73),
                 borderRadius: BorderRadius.circular(15)
           ),
           alignment: Alignment.center,
@@ -133,7 +133,7 @@ class _LoginState extends State<Login> {
                 fontWeight: FontWeight.bold
               )
             ),
-            color: Color.fromRGBO(100, 100, 100, 1),
+            color: Color.fromRGBO(22, 22, 22, 1),
           ),
         ),
       ),
@@ -143,14 +143,15 @@ class _LoginState extends State<Login> {
           padding: const EdgeInsets.all(8.0),
           child: CupertinoButton(
           onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Register())); backButtonClickCounter = 0; },
-          child: Text(
+            child: Text(
               "Зарегистрироваться",
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               )
             ),
-            color: Color.fromRGBO(100, 100, 100, 1),
+            color: Color.fromRGBO(226, 85, 5, 1),
           ),
         ),
       ),
