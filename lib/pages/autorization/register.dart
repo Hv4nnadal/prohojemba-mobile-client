@@ -37,14 +37,14 @@ class _RegisterState extends State<Register> {
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(0, 3),
-              ),
+              // BoxShadow(
+              //   color: Colors.grey.withOpacity(0.5),
+              //   spreadRadius: 5,
+              //   blurRadius: 7,
+              //   offset: Offset(0, 3),
+              // ),
             ],
-            color: Color.fromRGBO(250, 250, 250, 1),
+            color: Color.fromRGBO(255, 230, 141, 0.73),
             borderRadius: BorderRadius.circular(15)
           ),
           alignment: Alignment.center,
@@ -52,8 +52,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: [
               _welcomeNote(),
-              _input(),
-              _buttons()
+              _input()
             ],
           ),
         )
@@ -80,14 +79,69 @@ class _RegisterState extends State<Register> {
       (BuildContext context, ControlsDetails details) {
          return Row(
            children: <Widget>[
-             TextButton(
-               onPressed: details.onStepContinue,
-               child: Text('Продолжить'),
-             ),
-             TextButton(
-               onPressed: details.onStepCancel,
-               child: Text('Назад'),
-             ),
+             _currentStep == 0 ?
+             Container(
+                child: Row(
+                  children: [ TextButton(
+                    onPressed: details.onStepContinue,
+                    child: Text(
+                      'Продолжить',
+                      style: TextStyle(
+                        color: Color.fromRGBO(226, 85, 5, 1),
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
+                    child: Text(
+                      'Отмена',
+                      style: TextStyle(
+                        color: Color.fromRGBO(226, 85, 5, 1),
+                      ),
+                    ),
+                  ),
+                  ]
+                )
+             ) : _currentStep == 1 ?
+              Container(
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: details.onStepContinue,
+                      child: Text(
+                        'Отправить данные',
+                        style: TextStyle(
+                          color: Color.fromRGBO(226, 85, 5, 1),
+                        ),
+                        ),
+                    ),
+                    TextButton(
+                      onPressed: details.onStepCancel,
+                      child: Text(
+                        'Назад',
+                        style: TextStyle(
+                          color: Color.fromRGBO(226, 85, 5, 1),
+                        ),
+                        ),
+                    ),
+                  ]
+                )
+              ) :
+              Container(
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login())); },
+                      child: Text(
+                        'Завершить регистрацию',
+                        style: TextStyle(
+                          color: Color.fromRGBO(226, 85, 5, 1),
+                        ),
+                        ),
+                    ),
+                  ]
+                )
+              ),
            ],
          );
       },
@@ -159,11 +213,6 @@ class _RegisterState extends State<Register> {
           ),
         ),
       ],
-      onStepTapped: (int newIndex) {
-        setState(() {
-          _currentStep = newIndex;
-        });
-      },
       currentStep: _currentStep,
       onStepContinue: () {
         if (_currentStep != 2) {

@@ -23,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
   
   Future<String> _getUserInfo() async {
     var response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-    return User.fromJson(jsonDecode(response.body)).userId;
+    return User.fromJson(jsonDecode(response.body)).userName;
   }
 
   @override
@@ -222,15 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class User {
-  final String userId;
+  final String userName;
 
   const User({
-    @required this.userId
+    @required this.userName
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['title']
+      userName: json['title']
     );
   }
 }
